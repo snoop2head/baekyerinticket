@@ -8,7 +8,7 @@ db = client.dbsparta
 melon_ticket = db.melon_ticket.find()
 
 #find artist
-artist_number=698776
+artist_number=698776 #yerin baek's artist number
 artist_id=str(artist_number)
 melon_ticket_url="https://ticket.melon.com/artist/index.htm?artistId="+artist_id
 
@@ -37,7 +37,9 @@ for i in urls_and_titles:
         b.append({i.text:url})
         db.melon_ticket.insert_one({'title':i.text,'url':url})
 
+#print list of the ticket database
 #print (b)
+
 
 
 
