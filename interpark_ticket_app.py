@@ -2,9 +2,8 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 
 #find artist
-artist_number=698776
-artist_id=str(artist_number)
-melon_ticket_url="https://ticket.melon.com/artist/index.htm?artistId="+artist_id
+singer_name="ADOY"
+target_interpark_url="http://isearch.interpark.com/isearch?q="+ singer_name #This contains ticket URL
 
 
 # setup Driver|Chrome
