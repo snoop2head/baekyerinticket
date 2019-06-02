@@ -5,7 +5,7 @@ from pymongo import MongoClient
 #database setting
 client = MongoClient('localhost',27017)
 db = client.dbsparta
-melon_ticket = db.melon_ticket.find()
+melon_ticket = db.melon_ticket.find() #creating collection named melon_ticket
 
 #find artist
 artist_number=698776 #yerin baek's artist number
