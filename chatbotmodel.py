@@ -27,6 +27,6 @@ class baekcloud_bot(TelegramBot):
         self.updater.dispatcher.add_handler(CommandHandler(cmd, func))
 
     def start(self):
-        self.sendMessage('Hi Hi My Red')
+        self.sendMessage('Hi there!')
         self.updater.start_polling()
         self.updater.idle()
