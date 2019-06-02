@@ -1,8 +1,7 @@
-import sys
+import melon_ticket_app
 import chatbotmodel
 import telegram
 from pymongo import MongoClient
-import pprint
 
 #database setting
 client = MongoClient('localhost',27017)
@@ -16,19 +15,26 @@ baekcloud_token = '733519455:AAFn6_CUmVo2GCYz6Y9sl3JpuoZoJ_U2PWo'
 baekcloud = telegram.Bot(token = baekcloud_token)
 updates = baekcloud.getUpdates()
 
+#database update
+def proc_update(bot, update):
+    melon_ticket_app.database_update()
+    print("database updated")
+    baekcloud.sendMessage("concert information updated")
 
+#get ticket information
 def proc_ticket(bot, update):
     for object in db.melon_ticket.find():
         message = str(object['title']) + "\n" + str(object['url'])
         #print(message)
         baekcloud.sendMessage(message)
 
+#stop chatbot
 def proc_stop(bot, update):
     baekcloud.sendMessage('Bye Bye My Blue')
     baekcloud.stop()
 
-
 baekcloud= chatbotmodel.baekcloud_bot()
+baekcloud.add_handler('update', proc_update)
 baekcloud.add_handler('ticket', proc_ticket)
-baekcloud.add_handler('stop', proc_stop)
+baekcloud.add_handler('bye', proc_stop)
 baekcloud.start()
