@@ -53,9 +53,6 @@ def database_update():
             break
 
 
-
-database_update()
-
 #print list of the ticket database
 #print (b)
 
