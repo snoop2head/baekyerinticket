@@ -9,7 +9,7 @@ def database_update():
     melon_ticket = db.melon_ticket.find() #creating collection named melon_ticket
 
     #find artist
-    artist_number=1704627 #yerin baek's artist number 698776, ADOY's artist number 1704627
+    artist_number=698776 #yerin baek's artist number 698776, ADOY's artist number 1704627
     artist_id=str(artist_number)
     melon_ticket_url="https://ticket.melon.com/artist/index.htm?artistId="+artist_id
     #artist_name="ADOY"
@@ -31,33 +31,39 @@ def database_update():
     #parsing information
     all_text_notices = soup.find_all('div',{'class':{'show_infor'}})
     urls_and_titles = soup.find_all('span',{'class':{'show_title'}})
+    on_sale=soup.find_all('span',{'class':{'ico_list ico_list4'}})
 
     #drop database collection when function is called
     db.drop_collection("melon_ticket")
 
     #{title:url} database for tickets)
     b =[]
+
     for i in urls_and_titles:
         links = i.find_all('a')
-        for link in links:
-            url='https://ticket.melon.com/'+link['href']
-            #b.append({i.text:url})
-            db.melon_ticket.insert_one({'title':i.text,'url':url})
-            print('.')
+        #limiting the length of list smaller than plays available
+        if len(b) < len(on_sale):
+            for link in links:
+                #print(link)
+                url='https://ticket.melon.com/'+link['href']
+                b.append({i.text:url})
+                db.melon_ticket.insert_one({'title':i.text,'url':url})
+                print(b)
+        else:
+            break
+
+
 
 database_update()
 
 #print list of the ticket database
 #print (b)
 
-
-#
 '''
             former_data = {'title':,'url':}
             new_data = {'$set':{'title':i.text,'url':url}} 
             db.melon_ticket.update_one(former_data,new_data) # this is replacing dataset 
 '''
-
 '''
 #all text notices including status of ticket selling
 for n in all_text_notices:
