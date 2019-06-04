@@ -2,15 +2,14 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 
-def database_update():
+def database_update(artist_number):
     #database setting
     client = MongoClient('localhost',27017)
     db = client.dbsparta
     melon_ticket = db.melon_ticket.find() #creating collection named melon_ticket
 
     #find artist
-    artist_number=698776 #yerin baek's artist number 698776, ADOY's artist number 1704627
-    artist_id=str(artist_number)
+    artist_id=str(artist_number) #yerin baek's artist number 698776, ADOY's artist number 1704627
     melon_ticket_url="https://ticket.melon.com/artist/index.htm?artistId="+artist_id
     #artist_name="ADOY"
     #melon_ticket_url_2="https://ticket.melon.com/search/index.htm?q="+artist_name+"#"
@@ -21,7 +20,7 @@ def database_update():
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     driver = webdriver.Chrome(r"C:\Users\pc\Desktop\chromedriver", chrome_options=options)
-    driver.implicitly_wait(3) # waiting web source for three seconds implicitly
+    driver.implicitly_wait(10) # waiting web source for three seconds implicitly
 
     # get melon url
     driver.get(melon_ticket_url)

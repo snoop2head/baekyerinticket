@@ -1,5 +1,5 @@
 import telegram
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters  # import modules
 
 class TelegramBot:
     def __init__(self, name, token):
