@@ -10,9 +10,9 @@ from pymongo import MongoClient
 client = MongoClient('localhost',27017)
 db = client.dbsparta
 collection = db.melon_ticket
-#melon_ticket = db.melon_ticket.find() #indexing from database
-dbaccess_an_item = db.melon_ticket.find_one()
-dbaccess_multiple_item = db.melon_ticket.find({})
+#index = db.melon_ticket.find() #indexing from database
+dbaccess_an_item = collection.find_one()
+dbaccess_multiple_item = collection.find({})
 
 
 #token settings
@@ -23,9 +23,9 @@ updates = baekcloud.getUpdates()
 # message reply function
 # update is json format
 def get_message(bot , update) :
-    if update.message.text == "/bye":
-        baekcloud.stop()
+    if update.message.text == "bye":
         baekcloud.sendMessage('Bye Bye My Blue')
+        baekcloud.stop()
     else:
         update.message.reply_text("got your artist: " + str(update.message.text) + "\n" + "please wait for a moment")
         print(update.message.text)
@@ -37,7 +37,7 @@ def get_message(bot , update) :
             baekcloud.sendMessage("there are no tickets on sale at the moment")
         else:
             update.message.reply_text("Here are tickets on sale at the moment")
-            for object in db.melon_ticket.find():
+            for object in collection.find():
                 message = str(object['title']) + "\n" + str(object['url'])
                 #print(message)
                 baekcloud.sendMessage(message)
