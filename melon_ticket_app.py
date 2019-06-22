@@ -2,11 +2,11 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 
-def database_update(artist_number):
+def melon_db_update(artist_number):
     #database setting
     client = MongoClient('localhost',27017)
     db = client.dbsparta
-    melon_ticket = db.melon_ticket.find() #creating collection named melon_ticket
+    melon_ticket = db.ticket_db.find() #creating collection named melon_ticket
 
     #find artist
     artist_id=str(artist_number) #yerin baek's artist number 698776, ADOY's artist number 1704627
@@ -33,7 +33,7 @@ def database_update(artist_number):
     on_sale=soup.find_all('span',{'class':{'ico_list ico_list4'}})
 
     #drop database collection when function is called
-    db.drop_collection("melon_ticket")
+    db.drop_collection("ticket_db")
 
     #{title:url} database for tickets)
     b =[]
@@ -46,7 +46,7 @@ def database_update(artist_number):
                 #print(link)
                 url='https://ticket.melon.com/'+link['href']
                 b.append({i.text:url})
-                db.melon_ticket.insert_one({'title':i.text,'url':url})
+                db.ticket_db.insert_one({'title':i.text,'url':url})
                 print(b)
         else:
             break

@@ -2,6 +2,7 @@ import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters  # import modules
 import melon_ticket_app
 import artist_finder
+import interpark_ticket_app
 import chatbotmodel
 import telegram
 from pymongo import MongoClient
@@ -9,7 +10,7 @@ from pymongo import MongoClient
 #database setting
 client = MongoClient('localhost',27017)
 db = client.dbsparta
-collection = db.melon_ticket
+collection = db.ticket_db
 #index = db.melon_ticket.find() #indexing from database
 dbaccess_an_item = collection.find_one()
 dbaccess_multiple_item = collection.find({})
@@ -31,8 +32,10 @@ def get_message(bot , update) :
         print(update.message.text)
         artist_no=artist_finder.artist(update.message.text)
         print(artist_no)
-        melon_ticket_app.database_update(artist_no)
+        melon_ticket_app.melon_db_update(artist_no)
         print(collection.count_documents({}))
+        interpark_ticket_app.interpark_db_update(update.message.text)
+
         if collection.count_documents({}) == 0:
             baekcloud.sendMessage("there are no tickets on sale at the moment")
         else:
